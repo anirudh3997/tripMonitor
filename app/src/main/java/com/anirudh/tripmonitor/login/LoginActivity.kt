@@ -1,8 +1,9 @@
-package com.anirudh.tripmonitor
+package com.anirudh.tripmonitor.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.anirudh.tripmonitor.ui.login.LoginFragment
+import com.anirudh.tripmonitor.R
+import com.anirudh.tripmonitor.login.ui.LoginFragment
 
 class LoginActivity : AppCompatActivity() {
 

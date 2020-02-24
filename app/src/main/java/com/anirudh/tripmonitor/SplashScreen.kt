@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.anirudh.tripmonitor.login.LoginActivity
 
 
 class SplashScreen : AppCompatActivity() {
@@ -23,7 +24,7 @@ class SplashScreen : AppCompatActivity() {
 
     private fun OpenLoginActivity() {
         Handler().postDelayed({
-            val intent = Intent(applicationContext,LoginActivity::class.java)
+            val intent = Intent(applicationContext, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }, 2000)
