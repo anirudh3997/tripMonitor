@@ -9,6 +9,7 @@ import com.anirudh.tripmonitor.onboarding.adapter.IntroAdapter
 import com.anirudh.tripmonitor.onboarding.adapter.IntroPageTransformer
 import com.anirudh.tripmonitor.onboarding.viewmodel.IntoViewModel
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+import kotlinx.android.synthetic.main.intro_fragment_layout_1.*
 import kotlinx.android.synthetic.main.intro_layout.*
 
 class IntroActivity : AppCompatActivity() {
@@ -35,13 +36,18 @@ class IntroActivity : AppCompatActivity() {
         dotsIndicator?.setViewPager(mViewPager!!)
         // Set a PageTransformer
         mViewPager!!.setPageTransformer(false, IntroPageTransformer(this))
+        clickListeners()
+    }
 
+    private fun clickListeners() {
+        nextTextView.setOnClickListener {
+            mViewPager?.currentItem = mViewPager!!.currentItem + 1
+        }
     }
 
     private fun initViewModel() {
         mIntoViewModel = ViewModelProvider(this).get(IntoViewModel::class.java)
 
     }
-
 
 }
