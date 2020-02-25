@@ -7,12 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.anirudh.tripmonitor.R
-import com.anirudh.tripmonitor.R.layout.login_fragment
 import com.anirudh.tripmonitor.commons.MyBounceInterpolator
 import kotlinx.android.synthetic.main.login_fragment.*
 
@@ -26,13 +25,13 @@ class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
     private lateinit var leftBg: ImageView
     private lateinit var rightBg: ImageView
-    private lateinit var loginButton: Button
+    private lateinit var loginButton: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(login_fragment, container, false)
+        return inflater.inflate(R.layout.login_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
