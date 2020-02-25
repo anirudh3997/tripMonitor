@@ -3,34 +3,37 @@ package com.anirudh.tripmonitor.onboarding.ui
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.*
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.anirudh.tripmonitor.R
-import kotlinx.android.synthetic.main.intro_fragment_layout_1.view.*
+import com.anirudh.tripmonitor.commons.Constants.CLICK_LISTENERS
+import com.anirudh.tripmonitor.commons.Constants.DESC_TEXT
+import com.anirudh.tripmonitor.commons.Constants.LOTTIE_TEXT
+import com.anirudh.tripmonitor.commons.Constants.PAGE
+import com.anirudh.tripmonitor.commons.Constants.SIZE
+import com.anirudh.tripmonitor.commons.Constants.TITLE_TEXT
+import com.anirudh.tripmonitor.onboarding.interfaces.ClickListeners
+import kotlinx.android.synthetic.main.intro_fragment_layout.*
+import kotlinx.android.synthetic.main.intro_fragment_layout.view.*
 
 
 class IntroFragment : Fragment() {
     private var title: String = ""
     private var desc: String = ""
     private var lottie: String = ""
+    private lateinit var clickListeners: ClickListeners
     private var mPage = 0
-
-    val TAG = "IntroFragment"
-    private val TITLETEXT = "title"
-    private val DESCTEXT = "desc"
-    private val LOTTIETEXT = "lottie"
-    private val PAGE = "page"
+    private var size = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!arguments!!.containsKey(PAGE)) throw RuntimeException(
-            "Fragment must contain a \"$PAGE\" argument!"
-        )
         mPage = arguments!!.getInt(PAGE)
-        title = arguments!!.getString(TITLETEXT).toString()
-        desc = arguments!!.getString(DESCTEXT).toString()
-        lottie = arguments!!.getString(LOTTIETEXT).toString()
-
+        size = arguments!!.getInt(SIZE)
+        title = arguments!!.getString(TITLE_TEXT).toString()
+        desc = arguments!!.getString(DESC_TEXT).toString()
+        lottie = arguments!!.getString(LOTTIE_TEXT).toString()
+        clickListeners = arguments!!.getParcelable(CLICK_LISTENERS)!!
     }
 
     override fun onCreateView(
@@ -38,11 +41,23 @@ class IntroFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val layoutResId: Int = R.layout.intro_fragment_layout_1
+        val layoutResId: Int = R.layout.intro_fragment_layout
         val view =
             activity!!.layoutInflater.inflate(layoutResId, container, false)
         view.tag = mPage
         return view
+    }
+
+    private fun clickHandlers() {
+        prevTextView.setOnClickListener {
+            clickListeners.prevClicked()
+        }
+        nextTextView.setOnClickListener {
+            clickListeners.nextClicked()
+        }
+        skipTextView.setOnClickListener {
+            clickListeners.skipClicked()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,21 +65,39 @@ class IntroFragment : Fragment() {
         view.titleTextView.text = title
         view.descTextView.text = desc
         view.lottieAnimationView.setAnimation(lottie)
+        clickHandlers()
+        hideNavButtons()
+    }
+
+    private fun hideNavButtons() {
+        if (mPage == 0) {
+            prevTextView.visibility = INVISIBLE
+            nextTextView.visibility = VISIBLE
+        } else if (mPage == size - 1) {
+            nextTextView.visibility = INVISIBLE
+            prevTextView.visibility = VISIBLE
+        }
     }
 
     companion object {
-        private const val PAGE = "page"
-        private val TITLETEXT = "title"
-        private val DESCTEXT = "desc"
-        private val LOTTIETEXT = "lottie"
 
-        fun newInstance(title: String, desc: String, lottie: String, page: Int): IntroFragment {
+
+        fun newInstance(
+            clickListeners: ClickListeners,
+            title: String,
+            desc: String,
+            lottie: String,
+            size: Int,
+            page: Int
+        ): IntroFragment {
             val frag = IntroFragment()
             val b = Bundle()
-            b.putString(TITLETEXT, title)
-            b.putString(DESCTEXT, desc)
-            b.putString(LOTTIETEXT, lottie)
+            b.putParcelable(CLICK_LISTENERS, clickListeners)
+            b.putString(TITLE_TEXT, title)
+            b.putString(DESC_TEXT, desc)
+            b.putString(LOTTIE_TEXT, lottie)
             b.putInt(PAGE, page)
+            b.putInt(SIZE, size)
             frag.arguments = b
             return frag
         }

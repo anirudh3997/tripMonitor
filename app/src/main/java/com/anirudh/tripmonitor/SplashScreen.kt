@@ -6,8 +6,9 @@ import android.os.Handler
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.anirudh.tripmonitor.login.LoginActivity
-
+import com.anirudh.tripmonitor.commons.Constants.IS_WALK_THROUGH_SHOWN
+import com.anirudh.tripmonitor.commons.SharedPref
+import com.anirudh.tripmonitor.onboarding.ui.IntroActivity
 
 class SplashScreen : AppCompatActivity() {
 
@@ -19,14 +20,20 @@ class SplashScreen : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
         setContentView(R.layout.activity_main)
-        OpenLoginActivity()
+        OpenNextActivity()
     }
 
-    private fun OpenLoginActivity() {
+    private fun OpenNextActivity() {
         Handler().postDelayed({
-            val intent = Intent(applicationContext, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+            if (SharedPref().getSharedPrefBool(this, IS_WALK_THROUGH_SHOWN)) {
+                val intent = Intent(applicationContext, IntroActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                val intent = Intent(applicationContext, IntroActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }, 3000)
     }
 }

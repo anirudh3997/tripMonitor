@@ -3,11 +3,13 @@ package com.anirudh.tripmonitor.onboarding.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.viewpager.widget.ViewPager
 
 class IntoViewModel : ViewModel() {
     private val titleListLiveData = MutableLiveData<ArrayList<String>>()
     private val descListLiveData = MutableLiveData<ArrayList<String>>()
     private val lottieListLiveData = MutableLiveData<ArrayList<String>>()
+    private lateinit var viewPager:ViewPager
     private val descList = ArrayList<String>()
     private val lottieList = ArrayList<String>()
     private val titleList = ArrayList<String>()
@@ -60,6 +62,15 @@ class IntoViewModel : ViewModel() {
     fun getLottieListLiveData(): LiveData<ArrayList<String>> {
         return lottieListLiveData
     }
+
+    fun getViewPager(): ViewPager {
+        return viewPager
+    }
+
+    fun setViewPager(viewPager: ViewPager) {
+        this.viewPager = viewPager
+    }
+
 
 
 }

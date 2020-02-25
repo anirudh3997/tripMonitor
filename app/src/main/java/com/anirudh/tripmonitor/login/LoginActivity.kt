@@ -68,7 +68,6 @@ class LoginActivity : AppCompatActivity() {
                     // Save verification ID and resending token so we can use them later
                     // storedVerificationId = verificationId
                     // resendToken = token
-
                 }
             }
             login_button.setOnClickListener {
