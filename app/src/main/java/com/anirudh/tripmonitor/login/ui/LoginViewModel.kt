@@ -1,4 +1,4 @@
-package com.anirudh.tripmonitor.ui.login
+package com.anirudh.tripmonitor.login.ui
 
 import androidx.lifecycle.ViewModel
 

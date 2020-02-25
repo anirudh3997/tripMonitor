@@ -1,9 +1,10 @@
-package com.anirudh.tripmonitor
+package com.anirudh.tripmonitor.login
 
 import android.os.Bundle
+import com.anirudh.tripmonitor.R
+import com.anirudh.tripmonitor.login.ui.LoginFragment
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.anirudh.tripmonitor.ui.login.LoginFragment
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

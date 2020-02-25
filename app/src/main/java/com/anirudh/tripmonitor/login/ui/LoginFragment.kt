@@ -1,4 +1,4 @@
-package com.anirudh.tripmonitor.ui.login
+package com.anirudh.tripmonitor.login.ui
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -10,7 +10,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.anirudh.tripmonitor.R
 import com.anirudh.tripmonitor.commons.MyBounceInterpolator
 import kotlinx.android.synthetic.main.login_fragment.*
@@ -36,11 +36,10 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         setupVariables()
         animateBgOpen()
         clickListeners()
-        // TODO: Use the ViewModel
     }
 
     private fun clickListeners() {
@@ -61,8 +60,8 @@ class LoginFragment : Fragment() {
     private fun animateBgOpen() {
         val animateLeftBg: ObjectAnimator = ObjectAnimator.ofFloat(leftBg, "x", -150f)
         val animateRightBg: ObjectAnimator = ObjectAnimator.ofFloat(rightBg, "x", 150f)
-        animateLeftBg.duration = 1000
-        animateRightBg.duration = 1000
+        animateLeftBg.duration = 1500
+        animateRightBg.duration = 1500
         val animateSet = AnimatorSet()
 
         animateSet.playTogether(animateLeftBg, animateRightBg)
@@ -72,8 +71,8 @@ class LoginFragment : Fragment() {
     private fun animateBgClose() {
         val animateLeftBg: ObjectAnimator = ObjectAnimator.ofFloat(leftBg, "x", 100f)
         val animateRightBg: ObjectAnimator = ObjectAnimator.ofFloat(rightBg, "x", 0f)
-        animateLeftBg.duration = 1000
-        animateRightBg.duration = 1000
+        animateLeftBg.duration = 2000
+        animateRightBg.duration = 2000
         val animateSet = AnimatorSet()
         animateSet.playTogether(animateLeftBg, animateRightBg)
         animateSet.start()

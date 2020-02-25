@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
-    tools:context=".ui.login.LoginFragment">
+    tools:context=".login.ui.LoginFragment">
 
     <ImageView
         android:id="@+id/bg_left"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:scaleType="fitEnd"
-        android:visibility=""
+        android:visibility="visible"
         android:src="@drawable/bg_right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
