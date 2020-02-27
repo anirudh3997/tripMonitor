@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.anirudh.tripmonitor.R
@@ -21,7 +22,6 @@ import com.anirudh.tripmonitor.commons.OtpOnKeyListener
 import com.anirudh.tripmonitor.commons.OtpText
 import com.anirudh.tripmonitor.commons.OtpTextWatcher
 import kotlinx.android.synthetic.main.otp_fragment.*
-
 
 class OtpFragment : Fragment() {
 
@@ -99,8 +99,6 @@ class OtpFragment : Fragment() {
 
     private fun clickListeners() {
         loginOtpButton.setOnClickListener {
-            Log.e(TAG, "clickListeners: ${et1.text}  ${et2.text}  ${et3.text}  ${et4.text}")
-
             val myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce)
             val interpolator = MyBounceInterpolator(0.2, 15.0)
             myAnim.interpolator = interpolator
@@ -116,7 +114,7 @@ class OtpFragment : Fragment() {
         }
     }
 
-    fun showKeyboard() {
+    private fun showKeyboard() {
         val inputMethodManager =
             context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.toggleSoftInput(
@@ -124,4 +122,5 @@ class OtpFragment : Fragment() {
             0
         )
     }
+
 }
