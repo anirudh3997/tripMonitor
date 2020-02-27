@@ -2,18 +2,19 @@ package com.anirudh.tripmonitor.login.ui
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.transition.TransitionInflater
 import com.anirudh.tripmonitor.R
-import com.anirudh.tripmonitor.commons.MyBounceInterpolator
 import kotlinx.android.synthetic.main.login_fragment.*
 
 
@@ -40,6 +41,7 @@ class LoginFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         setupVariables()
         animateBgOpen()
+        editTextListener()
     }
 
     private fun setupVariables() {
@@ -70,6 +72,28 @@ class LoginFragment : Fragment() {
 
     }
 
+    private fun editTextListener() {
+        login_phone_number.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s?.length == 10) {
+                    hideKeyBoard()
+                }
+            }
 
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+    }
+
+    private fun hideKeyBoard() {
+        val inputMethodManager =
+            context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(login_phone_number.windowToken, 0)
+    }
 
 }

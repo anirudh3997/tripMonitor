@@ -1,8 +1,12 @@
 package com.anirudh.tripmonitor.login
 
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
@@ -34,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
                 .commitNow()
         }
         mAuth = FirebaseAuth.getInstance()
+
     }
 
     override fun onStart() {
@@ -76,7 +81,12 @@ class LoginActivity : AppCompatActivity() {
 
                     Log.e(TAG, "onCodeSent:$verificationId")
                     val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right,R.anim.slide_in_left, R.anim.slide_out_right)
+                    ft.setCustomAnimations(
+                        R.anim.slide_in_left,
+                        R.anim.slide_out_right,
+                        R.anim.slide_in_left,
+                        R.anim.slide_out_right
+                    )
                     ft.add(R.id.container, OtpFragment.newInstance())
                         .addToBackStack(null)
                         .commit()
@@ -90,27 +100,31 @@ class LoginActivity : AppCompatActivity() {
                 val interpolator = MyBounceInterpolator(0.2, 15.0)
                 myAnim.interpolator = interpolator
                 it.startAnimation(myAnim)
-                if (login_phone_number.text.toString().isNotEmpty() &&
-                    login_phone_number.text.toString().length == 10
-                ) {
-                    val phoneNumber = "+91" + login_phone_number.text.toString()
-                    PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                        phoneNumber, // Phone number to verify
-                        120, // Timeout duration
-                        TimeUnit.SECONDS, // Unit of timeout
-                        this, // Activity (for callback binding)
-                        callbacks
-                    ) // OnVerificationStateChangedCallbacks
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Please enter a valid phone number",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                loginGetOtp()
             }
         }
 
+    }
+
+    private fun loginGetOtp() {
+        if (login_phone_number.text.toString().isNotEmpty() &&
+            login_phone_number.text.toString().length == 10
+        ) {
+            val phoneNumber = "+91" + login_phone_number.text.toString()
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneNumber, // Phone number to verify
+                120, // Timeout duration
+                TimeUnit.SECONDS, // Unit of timeout
+                this, // Activity (for callback binding)
+                callbacks
+            ) // OnVerificationStateChangedCallbacks
+        } else {
+            Toast.makeText(
+                this,
+                "Please enter a valid phone number",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
 
