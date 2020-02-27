@@ -87,6 +87,7 @@ class IntroActivity : AppCompatActivity() {
         }
 
         override fun writeToParcel(dest: Parcel?, flags: Int) {
+            //Not Used
         }
 
         override fun describeContents(): Int {

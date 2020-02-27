@@ -3,7 +3,8 @@ package com.anirudh.tripmonitor.onboarding.ui
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.*
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.anirudh.tripmonitor.R
@@ -80,8 +81,6 @@ class IntroFragment : Fragment() {
     }
 
     companion object {
-
-
         fun newInstance(
             clickListeners: ClickListeners,
             title: String,

@@ -15,7 +15,6 @@ class IntroAdapter internal constructor(
 ) :
     FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-
     override fun getItem(position: Int): Fragment {
         return IntroFragment.newInstance(
             clickListeners,

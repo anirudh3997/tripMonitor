@@ -1,10 +1,15 @@
 package com.anirudh.tripmonitor.login
 
 import android.os.Bundle
-import com.anirudh.tripmonitor.R
-import com.anirudh.tripmonitor.login.ui.LoginFragment
 import android.util.Log
+import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
+import com.anirudh.tripmonitor.R
+import com.anirudh.tripmonitor.commons.MyBounceInterpolator
+import com.anirudh.tripmonitor.login.ui.LoginFragment
+import com.anirudh.tripmonitor.login.ui.OtpFragment
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -63,16 +68,32 @@ class LoginActivity : AppCompatActivity() {
                     // The SMS verification code has been sent to the provided phone number, we
                     // now need to ask the user to enter the code and then construct a credential
                     // by combining the code with a verification ID.
-                    Log.e(TAG, "onCodeSent:$verificationId")
+//                    val otpFragment = OtpFragment()
+//                    otpFragment.sharedElementEnterTransition = OtpTransition()
+//                    otpFragment.enterTransition = Fade()
+//                    otpFragment.exitTransition = Fade()
+//                    otpFragment.sharedElementReturnTransition = OtpTransition()
 
+                    Log.e(TAG, "onCodeSent:$verificationId")
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right,R.anim.slide_in_left, R.anim.slide_out_right)
+                    ft.add(R.id.container, OtpFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit()
                     // Save verification ID and resending token so we can use them later
                     // storedVerificationId = verificationId
                     // resendToken = token
                 }
             }
             login_button.setOnClickListener {
-                if (login_phone_number.text.toString().isNotEmpty()) {
-                    val phoneNumber = "+91"+ login_phone_number.text.toString()
+                val myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce)
+                val interpolator = MyBounceInterpolator(0.2, 15.0)
+                myAnim.interpolator = interpolator
+                it.startAnimation(myAnim)
+                if (login_phone_number.text.toString().isNotEmpty() &&
+                    login_phone_number.text.toString().length == 10
+                ) {
+                    val phoneNumber = "+91" + login_phone_number.text.toString()
                     PhoneAuthProvider.getInstance().verifyPhoneNumber(
                         phoneNumber, // Phone number to verify
                         120, // Timeout duration
@@ -80,6 +101,12 @@ class LoginActivity : AppCompatActivity() {
                         this, // Activity (for callback binding)
                         callbacks
                     ) // OnVerificationStateChangedCallbacks
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Please enter a valid phone number",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

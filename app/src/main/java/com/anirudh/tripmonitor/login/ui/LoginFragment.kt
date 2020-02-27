@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.TransitionInflater
 import com.anirudh.tripmonitor.R
 import com.anirudh.tripmonitor.commons.MyBounceInterpolator
 import kotlinx.android.synthetic.main.login_fragment.*
@@ -39,16 +40,6 @@ class LoginFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         setupVariables()
         animateBgOpen()
-        clickListeners()
-    }
-
-    private fun clickListeners() {
-        loginButton.setOnClickListener {
-            val myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce)
-            val interpolator = MyBounceInterpolator(0.2, 15.0)
-            myAnim.interpolator = interpolator
-            it.startAnimation(myAnim)
-        }
     }
 
     private fun setupVariables() {
@@ -78,5 +69,7 @@ class LoginFragment : Fragment() {
         animateSet.start()
 
     }
+
+
 
 }
