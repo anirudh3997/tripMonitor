@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.telephony.SmsMessage
 import android.util.Log
+import com.anirudh.tripmonitor.login.ui.OtpFragment
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -12,19 +13,9 @@ import java.util.regex.Pattern
 
 class SmsReceiver : BroadcastReceiver() {
 
-    private val mListener: SmsListener? = null
+    private val mListener: SmsListener? = OtpFragment()
 
     override fun onReceive(context: Context?, intent: Intent?) {
-//        val bundle = intent!!.extras
-//        val messages: Array<SmsMessage>?
-//        messages = parseSmsMessage(bundle)
-//
-//        if (messages != null && messages.isNotEmpty()) {
-//            val sender = messages[0].originatingAddress
-//            val contents = messages[0].messageBody.toString()
-//            val receivedDate = Date(messages[0].timestampMillis)
-//        }
-
         val data = intent?.extras
         if (data!!.get("pdus") != null) {
             val pdus = data.get("pdus") as Array<*>
@@ -34,12 +25,13 @@ class SmsReceiver : BroadcastReceiver() {
                 val sender = smsMessage.displayOriginatingAddress
                 val messageBody = smsMessage.messageBody
                 Log.e("---->", "$sender     $messageBody")
-                if (messageBody.toLowerCase(Locale.ROOT).contains(
+                if (messageBody.toLowerCase(Locale.getDefault()).contains(
                         "verification code",
                         ignoreCase = true
                     )
                 ) {
                     try {
+                        Log.e("---->", "messagebody is $messageBody")
                         mListener!!.messageReceived(parseCode(messageBody))
                     } catch (e: NullPointerException) {
                     }
@@ -49,11 +41,14 @@ class SmsReceiver : BroadcastReceiver() {
     }
 
     private fun parseCode(msg: String): String {
+        Log.e("---->", "msg is $msg")
         var otp = ""
         try {
-            val pattern: Pattern = Pattern.compile("(\\d{6})")
+            Log.e("---->", "msg is $msg")
+            val pattern: Pattern = Pattern.compile("(\\b\\d{6}\\b)")
             val matcher: Matcher = pattern.matcher(msg)
             if (matcher.find()) {
+                Log.e("---->", "mather is found")
                 otp = matcher.group(0)!!
             }
             Log.e("---->", "otp is $otp")
