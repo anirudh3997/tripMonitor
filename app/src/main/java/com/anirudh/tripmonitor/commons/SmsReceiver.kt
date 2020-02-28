@@ -6,6 +6,8 @@ import android.content.Intent
 import android.telephony.SmsMessage
 import android.util.Log
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 class SmsReceiver : BroadcastReceiver() {
@@ -32,12 +34,14 @@ class SmsReceiver : BroadcastReceiver() {
                 val sender = smsMessage.displayOriginatingAddress
                 val messageBody = smsMessage.messageBody
                 Log.e("---->", "$sender     $messageBody")
-                if (messageBody.toLowerCase(Locale.ROOT).contains("verification code", ignoreCase = true)) {
+                if (messageBody.toLowerCase(Locale.ROOT).contains(
+                        "verification code",
+                        ignoreCase = true
+                    )
+                ) {
                     try {
-//                        mListener!!.messageReceived(parseCode(messageBody))
-                        parseCode(messageBody)
-                    }catch (e:NullPointerException)
-                    {
+                        mListener!!.messageReceived(parseCode(messageBody))
+                    } catch (e: NullPointerException) {
                     }
                 }
             }
@@ -45,23 +49,16 @@ class SmsReceiver : BroadcastReceiver() {
     }
 
     private fun parseCode(msg: String): String {
-        var upToNCharacters: String? = null
+        var otp = ""
         try {
-            var message = msg
-            var part = arrayOf<String>()
-            try {
-                part = message.split("(?<=\\D)(?=\\d)".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-
-            } catch (e: Exception) {
-                e.printStackTrace()
+            val pattern: Pattern = Pattern.compile("(\\d{6})")
+            val matcher: Matcher = pattern.matcher(msg)
+            if (matcher.find()) {
+                otp = matcher.group(0)!!
             }
-
-            message = message.replace("FLAG", "")
-
-            upToNCharacters = part[1].substring(0, Math.min(part[1].length, 6))
-            Log.e("---->", upToNCharacters)
+            Log.e("---->", "otp is $otp")
         } catch (e: Exception) {
         }
-        return upToNCharacters!!
+        return otp
     }
 }

@@ -1,5 +1,5 @@
 package com.anirudh.tripmonitor.commons
 
-class SmsListener {
-
+interface SmsListener {
+    fun messageReceived(messageText: String)
 }

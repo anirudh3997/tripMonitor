@@ -13,17 +13,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.anirudh.tripmonitor.R
-import com.anirudh.tripmonitor.commons.MyBounceInterpolator
-import com.anirudh.tripmonitor.commons.OtpOnKeyListener
-import com.anirudh.tripmonitor.commons.OtpText
-import com.anirudh.tripmonitor.commons.OtpTextWatcher
+import com.anirudh.tripmonitor.commons.*
 import kotlinx.android.synthetic.main.otp_fragment.*
 
-class OtpFragment : Fragment() {
+class OtpFragment : Fragment() , SmsListener{
 
     private lateinit var leftBg: ImageView
     private lateinit var rightBg: ImageView
@@ -121,6 +117,10 @@ class OtpFragment : Fragment() {
             InputMethodManager.SHOW_FORCED,
             0
         )
+    }
+
+    override fun messageReceived(messageText: String) {
+        Log.e(TAG,"otp is otpfragment $messageText")
     }
 
 }
